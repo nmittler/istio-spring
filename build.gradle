@@ -1,0 +1,51 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.7.RELEASE'
+        springCloudCommonsVersion = '1.0.0.RELEASE'
+        springVersion = '4.3.11.RELEASE'
+        guavaVersion = '15.0'
+        httpClientVersion = '4.5.1'
+        hystrixJavanicaVersion = '1.5.6'
+    }
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = "org.istio"
+    description = 'Spring-based version of the reviews application.'
+    version = "1.0.0-SNAPSHOT"
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    // Configure Spring's dependency management plugin.
+    dependencyManagement {
+        dependencies {
+            dependency "org.springframework.boot:spring-boot:${springBootVersion}"
+            dependency "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+            dependency "org.springframework:spring-core:${springVersion}"
+            dependency "org.springframework:spring-aop:${springVersion}"
+            dependency "org.springframework:spring-aspects:${springVersion}"
+            dependency "org.springframework:spring-webmvc:${springVersion}"
+            dependency "org.springframework.cloud:spring-cloud-commons:${springCloudCommonsVersion}"
+            dependency "com.google.guava:guava:${guavaVersion}"
+            dependency "org.apache.httpcomponents:httpclient:${httpClientVersion}"
+            dependency "com.netflix.hystrix:hystrix-javanica:${hystrixJavanicaVersion}"
+        }
+    }
+}
+

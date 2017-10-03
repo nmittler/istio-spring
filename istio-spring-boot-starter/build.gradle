@@ -1,0 +1,8 @@
+description = 'Istio circuit breaker adapter library for String/Hystrix applications'
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot',
+            'org.springframework:spring-aspects',
+            'org.springframework:spring-webmvc',
+            'com.netflix.hystrix:hystrix-javanica'
+}

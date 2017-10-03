@@ -1,0 +1,1 @@
+A playground for using Spring MVC with Istio.
