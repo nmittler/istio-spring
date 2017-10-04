@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-hello.IstioAutoConfiguration
+io.istio.spring.IstioAutoConfiguration
 
 org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker=\
 io.istio.spring.IstioCircuitBreakerConfiguration

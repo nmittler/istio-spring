@@ -1,3 +1,6 @@
 rootProject.name = 'istio-spring'
-include 'istio-spring-reviews-application'
-include 'istio-spring-boot-starter'
+include ':istio-spring-reviews'
+include ':istio-spring-boot-starter'
+
+project(':istio-spring-reviews').projectDir = "$rootDir/reviews" as File
+project(':istio-spring-boot-starter').projectDir = "$rootDir/boot-starter" as File

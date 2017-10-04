@@ -3,9 +3,15 @@ apply plugin: 'org.springframework.boot'
 description = 'Spring-based version of the reviews application.'
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web',
+    compile project(':istio-spring-boot-starter'),
+            'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.cloud:spring-cloud-commons',
             'com.google.guava:guava',
             'org.apache.httpcomponents:httpclient',
             'com.netflix.hystrix:hystrix-javanica'
 }
+
+bootRepackage {
+    mainClass = 'io.istio.reviews.ReviewsApplication'
+}
+
