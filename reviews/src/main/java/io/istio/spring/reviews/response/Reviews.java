@@ -1,4 +1,4 @@
-package io.istio.reviews.response;
+package io.istio.spring.reviews.response;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;

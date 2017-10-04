@@ -1,4 +1,4 @@
-package io.istio.reviews;
+package io.istio.spring.reviews;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

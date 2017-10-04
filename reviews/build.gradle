@@ -12,6 +12,6 @@ dependencies {
 }
 
 bootRepackage {
-    mainClass = 'io.istio.reviews.ReviewsApplication'
+    mainClass = 'io.istio.spring.reviews.ReviewsApplication'
 }
 

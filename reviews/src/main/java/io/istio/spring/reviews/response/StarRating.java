@@ -1,4 +1,4 @@
-package io.istio.reviews.response;
+package io.istio.spring.reviews.response;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

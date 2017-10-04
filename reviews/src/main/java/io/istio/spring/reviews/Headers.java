@@ -1,4 +1,4 @@
-package io.istio.reviews;
+package io.istio.spring.reviews;
 
 final class Headers {
 

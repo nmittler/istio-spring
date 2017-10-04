@@ -1,4 +1,4 @@
-package io.istio.reviews;
+package io.istio.spring.reviews;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.MediaType.APPLICATION_JSON;

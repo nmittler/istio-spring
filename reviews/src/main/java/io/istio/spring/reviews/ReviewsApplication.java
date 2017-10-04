@@ -1,20 +1,20 @@
-package io.istio.reviews;
+package io.istio.spring.reviews;
 
-import static io.istio.reviews.Headers.X_B3_FLAGS;
-import static io.istio.reviews.Headers.X_B3_PARENTSPANID;
-import static io.istio.reviews.Headers.X_B3_SAMPLED;
-import static io.istio.reviews.Headers.X_B3_SPANID;
-import static io.istio.reviews.Headers.X_B3_TRACEID;
-import static io.istio.reviews.Headers.X_OT_SPAN_CONTEXT;
-import static io.istio.reviews.Headers.X_REQUEST_ID;
+import static io.istio.spring.reviews.Headers.X_B3_FLAGS;
+import static io.istio.spring.reviews.Headers.X_B3_PARENTSPANID;
+import static io.istio.spring.reviews.Headers.X_B3_SAMPLED;
+import static io.istio.spring.reviews.Headers.X_B3_SPANID;
+import static io.istio.spring.reviews.Headers.X_B3_TRACEID;
+import static io.istio.spring.reviews.Headers.X_OT_SPAN_CONTEXT;
+import static io.istio.spring.reviews.Headers.X_REQUEST_ID;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.istio.reviews.response.Review;
-import io.istio.reviews.response.Reviews;
-import io.istio.reviews.response.StarRating;
+import io.istio.spring.reviews.response.Review;
+import io.istio.spring.reviews.response.Reviews;
+import io.istio.spring.reviews.response.StarRating;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
