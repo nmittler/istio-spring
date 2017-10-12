@@ -33,3 +33,18 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
+---
+##################################################################################################
+# Direct all reviews traffic to v4
+##################################################################################################
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+ name: reviews-v4-rollout
+spec:
+ destination:
+   name: reviews
+ route:
+ - labels:
+     version: v4
+   weight: 100
