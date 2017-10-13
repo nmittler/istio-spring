@@ -29,8 +29,8 @@ spec:
     spec:
       containers:
       - name: reviews
-        image: gcr.io/nathanmittler-istio-test/istio-spring-deploy
-        imagePullPolicy: IfNotPresent
+        image: gcr.io/nathanmittler-istio-test/istio-spring-deploy:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 9080
 ---
@@ -40,11 +40,20 @@ spec:
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
- name: reviews-v4-rollout
+  name: reviews-v4-rollout
 spec:
- destination:
-   name: reviews
- route:
- - labels:
-     version: v4
-   weight: 100
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
+    weight: 0
+  - labels:
+      version: v2
+    weight: 0
+  - labels:
+      version: v3
+    weight: 0
+  - labels:
+      version: v4
+    weight: 100

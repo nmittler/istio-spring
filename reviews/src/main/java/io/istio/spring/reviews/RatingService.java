@@ -46,6 +46,7 @@ public class RatingService {
       String xflags,
       String xotspan) {
     if (!props.isEnabled()) {
+      //return "{\"id\":0,\"ratings\":{\"Reviewer1\":5,\"Reviewer2\":4}}";
       return "{}";
     }
 

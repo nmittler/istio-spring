@@ -17,15 +17,21 @@ package io.istio.spring.reviews.response;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.Optional;
+
 public final class Review {
   private final String reviewer;
   private final String text;
-  private final StarRating starRating;
+
+  @JsonInclude(Include.NON_EMPTY)
+  private final Optional<StarRating> rating;
 
   public Review(String reviewer, String text, StarRating starRating) {
     this.reviewer = checkNotNull(reviewer, "reviewer");
     this.text = checkNotNull(text, "text");
-    this.starRating = checkNotNull(starRating, "starRating");
+    this.rating = Optional.ofNullable(starRating);
   }
 
   public String getReviewer() {
@@ -36,7 +42,7 @@ public final class Review {
     return text;
   }
 
-  public StarRating getStarRating() {
-    return starRating;
+  public Optional<StarRating> getRating() {
+    return rating;
   }
 }

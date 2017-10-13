@@ -6,6 +6,7 @@ buildscript {
         guavaVersion = '15.0'
         httpClientVersion = '4.5.1'
         hystrixJavanicaVersion = '1.5.6'
+        jacksonVersion = '2.8.10'
     }
     repositories {
         mavenCentral()
@@ -45,6 +46,7 @@ subprojects {
             dependency "com.google.guava:guava:${guavaVersion}"
             dependency "org.apache.httpcomponents:httpclient:${httpClientVersion}"
             dependency "com.netflix.hystrix:hystrix-javanica:${hystrixJavanicaVersion}"
+            dependency "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${jacksonVersion}"
         }
     }
 }

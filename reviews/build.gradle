@@ -8,7 +8,8 @@ dependencies {
             'org.springframework.cloud:spring-cloud-commons',
             'com.google.guava:guava',
             'org.apache.httpcomponents:httpclient',
-            'com.netflix.hystrix:hystrix-javanica'
+            'com.netflix.hystrix:hystrix-javanica',
+            'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
 }
 
 bootRepackage {
