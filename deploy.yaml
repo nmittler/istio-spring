@@ -29,18 +29,18 @@ spec:
     spec:
       containers:
       - name: reviews
-        image: gcr.io/nathanmittler-istio-test/istio-spring-deploy:latest
+        image: gcr.io/nathanmittler-istio-test/reviews-v4:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
 ---
 ##################################################################################################
-# Direct all reviews traffic to v4
+# Direct all Reviews traffic to v4
 ##################################################################################################
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
-  name: reviews-v4-rollout
+  name: reviews-traffic-split-rule
 spec:
   destination:
     name: reviews
@@ -57,3 +57,43 @@ spec:
   - labels:
       version: v4
     weight: 100
+---
+##################################################################################################
+# Spring-based Ratings backend
+##################################################################################################
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ratings-v4
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ratings
+        version: v4
+    spec:
+      containers:
+      - name: ratings
+        image: gcr.io/nathanmittler-istio-test/ratings-v4:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9080
+---
+##################################################################################################
+# Split Ratings traffic between v1 and v2
+##################################################################################################
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-traffic-split-rule
+spec:
+  destination:
+    name: ratings
+  route:
+  - labels:
+      version: v1
+    weight: 50
+  - labels:
+      version: v4
+    weight: 50

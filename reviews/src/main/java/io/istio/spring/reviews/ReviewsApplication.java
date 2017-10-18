@@ -27,9 +27,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.istio.spring.reviews.response.Review;
-import io.istio.spring.reviews.response.Reviews;
-import io.istio.spring.reviews.response.StarRating;
+import io.istio.spring.api.Review;
+import io.istio.spring.api.ReviewsResponse;
+import io.istio.spring.api.Stars;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,7 +64,7 @@ public class ReviewsApplication {
 
   @RequestMapping(value = "/reviews/{productId}", method = GET, produces = APPLICATION_JSON_VALUE)
   @ResponseBody
-  public Reviews bookReviewsById(@PathVariable("productId") int productId,
+  public ReviewsResponse bookReviewsById(@PathVariable("productId") int productId,
       @CookieValue("user") String user,
       @RequestHeader(value = X_REQUEST_ID, required = false) String xreq,
       @RequestHeader(value = X_B3_TRACEID, required = false) String xtraceid,
@@ -84,12 +84,12 @@ public class ReviewsApplication {
     JsonNode response = mapper.readTree(json);
 
     JsonNode r1 = response.path("ratings").path("Reviewer1");
-    StarRating sr1 = r1.isMissingNode() ? null : newStarRating(r1.asInt());
+    Stars sr1 = r1.isMissingNode() ? null : newStars(r1.asInt());
 
     JsonNode r2 = response.path("ratings").path("Reviewer2");
-    StarRating sr2 = r2.isMissingNode() ? null : newStarRating(r2.asInt());
+    Stars sr2 = r2.isMissingNode() ? null : newStars(r2.asInt());
 
-    return new Reviews(productId,
+    return new ReviewsResponse(productId,
         Arrays.asList(new Review("Reviewer1",
             "Reviews v4 is simply amazing!", sr1),
             new Review("Reviewer2",
@@ -97,8 +97,8 @@ public class ReviewsApplication {
                 sr2)));
   }
 
-  private StarRating newStarRating(int stars) {
-    return new StarRating(stars, props.getStarColor());
+  private Stars newStars(int stars) {
+    return new Stars(stars, props.getStarColor());
   }
 
   public static void main(String[] args) {

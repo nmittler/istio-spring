@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.istio.spring.reviews.response;
+package io.istio.spring.api;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public final class StarRating {
+public final class Stars {
   private final int stars;
   private final String color;
 
-  public StarRating(int stars, String color) {
+  public Stars(int stars, String color) {
     this.stars = stars;
     this.color = checkNotNull(color, "color");
   }

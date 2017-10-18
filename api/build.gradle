@@ -1,0 +1,10 @@
+description = 'Service API messages'
+
+dependencies {
+    compile 'com.google.guava:guava',
+
+            // Included for proper handling of Java 8 Optional fields
+            'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+}
+
+

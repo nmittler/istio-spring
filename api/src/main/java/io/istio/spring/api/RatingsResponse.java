@@ -13,36 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.istio.spring.reviews.response;
+package io.istio.spring.api;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.util.Optional;
+import java.util.Map;
 
-public final class Review {
-  private final String reviewer;
-  private final String text;
+public final class RatingsResponse {
+  private final int id;
+  private final Map<String, Integer> ratings;
 
-  @JsonInclude(Include.NON_EMPTY)
-  private final Optional<StarRating> rating;
-
-  public Review(String reviewer, String text, StarRating starRating) {
-    this.reviewer = checkNotNull(reviewer, "reviewer");
-    this.text = checkNotNull(text, "text");
-    this.rating = Optional.ofNullable(starRating);
+  public RatingsResponse(int id, Map<String, Integer> ratings) {
+    this.id = id;
+    this.ratings = checkNotNull(ratings, "ratings");
   }
 
-  public String getReviewer() {
-    return reviewer;
+  public int getId() {
+    return id;
   }
 
-  public String getText() {
-    return text;
-  }
-
-  public Optional<StarRating> getRating() {
-    return rating;
+  public Map<String, Integer> getRatings() {
+    return ratings;
   }
 }

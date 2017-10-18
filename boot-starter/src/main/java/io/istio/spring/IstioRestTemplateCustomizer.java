@@ -15,7 +15,6 @@
  *******************************************************************************/
 package io.istio.spring;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import java.io.IOException;
 import org.springframework.boot.web.client.RestTemplateCustomizer;
 import org.springframework.http.HttpRequest;
@@ -39,9 +38,11 @@ public class IstioRestTemplateCustomizer implements RestTemplateCustomizer {
         ClientHttpRequestExecution execution) throws IOException {
 
       System.err.println("NM: RestTemplate thread ID=" + Thread.currentThread().getId());
-      HystrixCommand commandConfig = IstioContext.getInstance().getCommandConfig();
-      if (commandConfig != null) {
-        System.err.println("NM: Making request with config: " + commandConfig + " to endpoint: " + request.getURI());
+      CircuitBreakerProperties props = IstioContext.getInstance().getCircuitBreakerProperties();
+      if (props != null) {
+        // TODO(nmittler): Add Envoy headers (See https://envoyproxy.github.io/envoy/configuration/http_filters/router_filter.html#http-headers)
+        System.err.println(
+            "NM: Making request with config: " + props + " to endpoint: " + request.getURI());
       }
       return execution.execute(request, body);
     }

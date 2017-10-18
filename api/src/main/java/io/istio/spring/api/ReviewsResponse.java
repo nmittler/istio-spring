@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.istio.spring.reviews.response;
+package io.istio.spring.api;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 
-public final class Reviews {
+public final class ReviewsResponse {
   private final int id;
   private final List<Review> reviews;
 
-  public Reviews(int id, List<Review> reviews) {
+  public ReviewsResponse(int id, List<Review> reviews) {
     this.id = id;
     this.reviews = ImmutableList.copyOf(reviews);
   }

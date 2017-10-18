@@ -3,8 +3,7 @@ apply plugin: 'org.springframework.boot'
 description = 'Spring-based version of the reviews application.'
 
 dependencies {
-    compile project(':istio-spring-boot-starter'),
-            project(':istio-spring-api'),
+    compile project(':istio-spring-api'),
             'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.cloud:spring-cloud-commons',
             'com.google.guava:guava',
@@ -14,6 +13,6 @@ dependencies {
 }
 
 bootRepackage {
-    mainClass = 'io.istio.spring.reviews.ReviewsApplication'
+    mainClass = 'io.istio.spring.ratings.RatingsApplication'
 }
 

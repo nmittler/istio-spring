@@ -13,31 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.istio.spring;
+package io.istio.spring.api;
 
-final class IstioContext {
-  private static final ThreadLocal<IstioContext> currentCommand =
-      new ThreadLocal<IstioContext>() {
-        @Override protected IstioContext initialValue() {
-          return new IstioContext();
-        }
-      };
+import static com.google.common.base.Preconditions.checkNotNull;
 
-  static IstioContext getInstance() {
-    return currentCommand.get();
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.Optional;
+
+public final class Review {
+  private final String reviewer;
+  private final String text;
+
+  @JsonInclude(Include.NON_EMPTY)
+  private final Optional<Stars> rating;
+
+  public Review(String reviewer, String text, Stars stars) {
+    this.reviewer = checkNotNull(reviewer, "reviewer");
+    this.text = checkNotNull(text, "text");
+    this.rating = Optional.ofNullable(stars);
   }
 
-  private CircuitBreakerProperties circuitBreakerProperties;
-
-  void init(CircuitBreakerProperties circuitBreakerProperties) {
-    this.circuitBreakerProperties = circuitBreakerProperties;
+  public String getReviewer() {
+    return reviewer;
   }
 
-  CircuitBreakerProperties getCircuitBreakerProperties() {
-    return circuitBreakerProperties;
+  public String getText() {
+    return text;
   }
 
-  void clear() {
-    this.circuitBreakerProperties = null;
+  public Optional<Stars> getRating() {
+    return rating;
   }
 }

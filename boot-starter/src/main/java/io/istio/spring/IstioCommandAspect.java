@@ -15,13 +15,16 @@
  *******************************************************************************/
 package io.istio.spring;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import java.lang.reflect.Method;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.contrib.javanica.command.MetaHolder;
+import com.netflix.hystrix.contrib.javanica.conf.HystrixPropertiesManager;
+import com.netflix.hystrix.strategy.properties.HystrixPropertiesCommandDefault;
+import java.time.Duration;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
@@ -39,17 +42,43 @@ public class IstioCommandAspect {
   @Around("command()")
   public Object around(final ProceedingJoinPoint joinPoint) throws Throwable {
 
-    Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-    HystrixCommand annotation = method.getAnnotation(HystrixCommand.class);
-    IstioContext.getInstance().init(annotation);
-    System.err.println("NM: service aspect call: " + annotation);
-    System.err.println("NM: service aspect thread ID=" + Thread.currentThread().getId());
-    System.err.println("NM: service aspect join point: " + joinPoint);
+    // Extract the properties from the annotation.
+    HystrixCommandProperties commandProps = getCommandProperties(joinPoint);
+
+    if (commandProps.circuitBreakerEnabled().get()) {
+      // Convert to circuit breaker properties.
+      CircuitBreakerProperties circuitBreakerProps = circuitBreakerProps(commandProps);
+
+      // Set the properties on the thread-local context.
+      IstioContext.getInstance().init(circuitBreakerProps);
+      System.err.println("NM: service aspect call: " + circuitBreakerProps);
+      System.err.println("NM: service aspect thread ID=" + Thread.currentThread().getId());
+      System.err.println("NM: service aspect join point: " + joinPoint);
+    } else {
+      IstioContext.getInstance().clear();
+    }
 
     try {
       return joinPoint.proceed();
     } finally {
       IstioContext.getInstance().clear();
     }
+  }
+
+  private static HystrixCommandProperties getCommandProperties(ProceedingJoinPoint joinPoint) {
+    MetaHolder metaHolder = new MetaHolderFactory.CommandMetaHolderFactory().create(joinPoint);
+    HystrixCommandProperties.Setter setter = HystrixPropertiesManager.initializeCommandProperties(
+        metaHolder.getCommandProperties());
+    HystrixCommandKey commandKey = HystrixCommandKey.Factory.asKey(metaHolder.getCommandKey());
+    return new HystrixPropertiesCommandDefault(commandKey, setter);
+  }
+
+  private static CircuitBreakerProperties circuitBreakerProps(
+      HystrixCommandProperties commandProps) {
+    CircuitBreakerProperties.Builder builder = CircuitBreakerProperties.newBuilder();
+    // TODO(nmittler): Convert more properties?
+    builder.sleepWindow(
+        Duration.ofMillis(commandProps.circuitBreakerSleepWindowInMilliseconds().get()));
+    return builder.build();
   }
 }
